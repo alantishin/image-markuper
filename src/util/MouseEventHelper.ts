@@ -1,6 +1,6 @@
 import Point from 'util/Point'
 
-export const pointFromEvent = function(event: MouseEvent) {
+export const pointFromEvent = function(event: MouseEvent): Point {
     return new Point(event.offsetX, event.offsetY)
 }
 

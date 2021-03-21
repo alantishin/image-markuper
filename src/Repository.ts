@@ -20,32 +20,34 @@ class Repository {
     }
 
     initEditorEvents() {
-    
-        this.canvas.addEventListener('mousedown', (event) => {
-            // console.log('mousedown', event)
 
-            this.items.push(new Bbox(this.ctx))
+        this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this))
+        this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this))
+        this.canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
+    }
 
-            const point = pointFromEvent(event)
+    onMouseDown(event: MouseEvent) {
+        this.items.push(new Bbox(this.ctx))
 
-            this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousedown, point)
-        })
+        const point = pointFromEvent(event)
 
-        this.canvas.addEventListener('mousemove', (event) => {
-            const point = pointFromEvent(event)
+        this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousedown, point)
+    }
 
-            if(this.items[this.items.length - 1]) {
-                this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousemove, point)
-            }
-        })
+    onMouseMove(event: MouseEvent) {
+        const point = pointFromEvent(event)
 
-        this.canvas.addEventListener('mouseup', (event) => {
-            const point = pointFromEvent(event)
-            
-            if(this.items[this.items.length - 1]) {
-                this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mouseup, point)
-            }
-        })
+        if (this.items[this.items.length - 1]) {
+            this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousemove, point)
+        }
+    }
+
+    onMouseUp(event: MouseEvent) {
+        const point = pointFromEvent(event)
+
+        if (this.items[this.items.length - 1]) {
+            this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mouseup, point)
+        }
     }
 }
 
