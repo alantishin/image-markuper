@@ -1,0 +1,22 @@
+{
+  "name": "drawer",
+  "version": "0.0.0",
+  "description": "Js canvas drawing tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --watch"
+  },
+  "keywords": [
+    "js",
+    "canvas"
+  ],
+  "author": "Tishin Alan",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^8.0.18",
+    "typescript": "^4.2.3",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
+  }
+}
