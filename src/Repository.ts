@@ -6,11 +6,9 @@ class Repository {
     protected items: Array<Drawable> = []
 
     protected canvas: HTMLCanvasElement;
-    protected ctx: CanvasRenderingContext2D;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas
-        this.ctx = ctx
 
         this.initEditorEvents()
     }
@@ -27,7 +25,7 @@ class Repository {
     }
 
     onMouseDown(event: MouseEvent) {
-        this.items.push(new Bbox(this.ctx))
+        this.items.push(new Bbox())
 
         const point = pointFromEvent(event)
 

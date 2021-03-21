@@ -13,7 +13,7 @@ class Container
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
 
-        this.repository = new Repository(this.canvas, this.ctx)
+        this.repository = new Repository(this.canvas)
 
         window.requestAnimationFrame(this.draw.bind(this));
     }
@@ -24,7 +24,7 @@ class Container
         const items = this.repository.getItems()
 
         for(const item of items) {
-            item.draw()
+            item.draw(this.ctx)
         }
 
         window.requestAnimationFrame(this.draw.bind(this));
