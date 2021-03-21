@@ -76,7 +76,7 @@ class Bbox extends Drawable
         return this.point2 && this.y ? this.point2.y - this.y : null;
     }
 
-    draw() {
+    draw(): void {
         if (this.x && this.y && this.width && this.height) {
             this.options.apply(this.ctx)
             this.ctx.fillRect(this.x, this.y, this.width, this.height)

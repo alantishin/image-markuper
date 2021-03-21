@@ -1,11 +1,10 @@
-import Bbox from 'drawable/Bbox'
-import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper'
+import Repository from 'Repository'
 
 class Container
 {
     protected canvas: HTMLCanvasElement
     protected ctx: CanvasRenderingContext2D
-    protected items: Array<Bbox>;
+    protected repository: Repository
 
     constructor(selector: string) {
         this.canvas = document.querySelector(selector) as HTMLCanvasElement;
@@ -14,30 +13,7 @@ class Container
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
 
-        this.items = [
-            new Bbox(this.ctx)
-        ]
-
-        this.canvas.addEventListener('mousedown', (event) => {
-            // console.log('mousedown', event)
-
-            const point = pointFromEvent(event)
-
-            this.items[0].onMouseEvent(MouseEventsTypes.mousedown, point)
-        })
-
-        this.canvas.addEventListener('mousemove', (event) => {
-            const point = pointFromEvent(event)
-
-            this.items[0].onMouseEvent(MouseEventsTypes.mousemove, point)
-        })
-
-        this.canvas.addEventListener('mouseup', (event) => {
-            const point = pointFromEvent(event)
-            this.items[0].onMouseEvent(MouseEventsTypes.mouseup, point)
-        })
-
-        
+        this.repository = new Repository(this.canvas, this.ctx)
 
         window.requestAnimationFrame(this.draw.bind(this));
     }
@@ -45,7 +21,9 @@ class Container
     draw() {
         this.clear()
 
-        for(const item of this.items) {
+        const items = this.repository.getItems()
+
+        for(const item of items) {
             item.draw()
         }
 
