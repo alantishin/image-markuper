@@ -1,4 +1,5 @@
-import Bbox from 'Bbox'
+import Bbox from 'drawable/Bbox'
+import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper'
 
 class Container
 {
@@ -17,16 +18,23 @@ class Container
             new Bbox(this.ctx)
         ]
 
-        this.canvas.addEventListener('click', (event) => {
-            console.log('clicked', event)
+        this.canvas.addEventListener('mousedown', (event) => {
+            // console.log('mousedown', event)
 
-            this.items[0].x = event.offsetX;
-            this.items[0].y = event.offsetY;
+            const point = pointFromEvent(event)
+
+            this.items[0].onMouseEvent(MouseEventsTypes.mousedown, point)
         })
 
         this.canvas.addEventListener('mousemove', (event) => {
-            this.items[0].x = event.offsetX;
-            this.items[0].y = event.offsetY;
+            const point = pointFromEvent(event)
+
+            this.items[0].onMouseEvent(MouseEventsTypes.mousemove, point)
+        })
+
+        this.canvas.addEventListener('mouseup', (event) => {
+            const point = pointFromEvent(event)
+            this.items[0].onMouseEvent(MouseEventsTypes.mouseup, point)
         })
 
         
