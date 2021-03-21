@@ -2,6 +2,7 @@ import Drawable from 'drawable/Drawable'
 import Point from 'util/Point'
 import { MouseEventsTypes } from 'util/MouseEventHelper'
 
+
 enum editStatus {
     none = "none",
     startDrawing = "startDrawing",
@@ -77,6 +78,7 @@ class Bbox extends Drawable
 
     draw() {
         if (this.x && this.y && this.width && this.height) {
+            this.options.apply(this.ctx)
             this.ctx.fillRect(this.x, this.y, this.width, this.height)
         }
     }
