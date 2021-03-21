@@ -20,28 +20,31 @@ class Repository {
     }
 
     initEditorEvents() {
-
-        this.items = [
-            new Bbox(this.ctx)
-        ]
     
         this.canvas.addEventListener('mousedown', (event) => {
             // console.log('mousedown', event)
 
+            this.items.push(new Bbox(this.ctx))
+
             const point = pointFromEvent(event)
 
-            this.items[0].onMouseEvent(MouseEventsTypes.mousedown, point)
+            this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousedown, point)
         })
 
         this.canvas.addEventListener('mousemove', (event) => {
             const point = pointFromEvent(event)
 
-            this.items[0].onMouseEvent(MouseEventsTypes.mousemove, point)
+            if(this.items[this.items.length - 1]) {
+                this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousemove, point)
+            }
         })
 
         this.canvas.addEventListener('mouseup', (event) => {
             const point = pointFromEvent(event)
-            this.items[0].onMouseEvent(MouseEventsTypes.mouseup, point)
+            
+            if(this.items[this.items.length - 1]) {
+                this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mouseup, point)
+            }
         })
     }
 }

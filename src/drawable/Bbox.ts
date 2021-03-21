@@ -24,7 +24,7 @@ class Bbox extends Drawable
         // console.log('[onMouseEvent]', type, point)
 
         if (type == MouseEventsTypes.mousedown && this.status == editStatus.startDrawing) {
-            console.log('[onMouseEvent]', type, point)
+            // console.log('[onMouseEvent]', type, point)
 
             this.point1 = point
 
@@ -36,7 +36,7 @@ class Bbox extends Drawable
             this.status == editStatus.drawing &&
             this.x && this.y
         ) {
-            console.log('[onMouseEvent]', type, point)
+            // console.log('[onMouseEvent]', type, point)
 
             this.point2 = point
 
@@ -48,7 +48,7 @@ class Bbox extends Drawable
             this.status == editStatus.drawing &&
             this.x && this.y
         ) {
-            console.log('[onMouseEvent]', type, point)
+            // console.log('[onMouseEvent]', type, point)
 
             this.point2 = point
 
@@ -77,9 +77,19 @@ class Bbox extends Drawable
     }
 
     draw(): void {
-        if (this.x && this.y && this.width && this.height) {
-            this.options.apply(this.ctx)
-            this.ctx.fillRect(this.x, this.y, this.width, this.height)
+        if (this.point1 && this.point2) {
+
+            const x = this.x as number;
+            const y = this.y as number;
+            const width = this.width as number;
+            const height = this.height as number;
+
+            this.ctx.beginPath();
+            this.options.apply(this.ctx);
+            this.ctx.rect(x, y, width, height);
+            this.ctx.fill();
+            this.ctx.stroke();
+            this.ctx.closePath();
         }
     }
 }
