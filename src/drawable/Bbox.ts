@@ -3,10 +3,10 @@ import Point from 'util/Point'
 import { MouseEventsTypes } from 'util/MouseEventHelper'
 
 
-enum editStatus {
+enum editorStatus {
     none = "none",
-    startDrawing = "startDrawing",
-    drawing = "drawing"
+    drawingStart = "drawingStart",
+    drawingProgress = "drawingProgress"
   }
 
 class Bbox extends Drawable
@@ -14,7 +14,7 @@ class Bbox extends Drawable
     public point1: Point | null = null;
     public point2: Point | null = null;
 
-    protected status: editStatus = editStatus.startDrawing;
+    protected status: editorStatus = editorStatus.drawingStart;
 
     constructor(ctx: CanvasRenderingContext2D) {
         super(ctx);
@@ -23,17 +23,17 @@ class Bbox extends Drawable
     onMouseEvent(type: MouseEventsTypes, point: Point) {
         // console.log('[onMouseEvent]', type, point)
 
-        if (type == MouseEventsTypes.mousedown && this.status == editStatus.startDrawing) {
+        if (type == MouseEventsTypes.mousedown && this.status == editorStatus.drawingStart) {
             // console.log('[onMouseEvent]', type, point)
 
             this.point1 = point
 
-            this.status = editStatus.drawing
+            this.status = editorStatus.drawingProgress
         }
 
         if (
             type == MouseEventsTypes.mousemove && 
-            this.status == editStatus.drawing &&
+            this.status == editorStatus.drawingProgress &&
             this.x && this.y
         ) {
             // console.log('[onMouseEvent]', type, point)
@@ -45,14 +45,14 @@ class Bbox extends Drawable
 
         if (
             type == MouseEventsTypes.mouseup && 
-            this.status == editStatus.drawing &&
+            this.status == editorStatus.drawingProgress &&
             this.x && this.y
         ) {
             // console.log('[onMouseEvent]', type, point)
 
             this.point2 = point
 
-            this.status = editStatus.none
+            this.status = editorStatus.none
         }
     }
 
