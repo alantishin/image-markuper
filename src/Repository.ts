@@ -1,6 +1,6 @@
 import Drawable from 'drawable/Drawable'
 import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper'
-import Bbox from './drawable/Bbox';
+import Bbox from 'drawable/Bbox';
 
 class Repository {
     protected items: Array<Drawable> = []
