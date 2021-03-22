@@ -26,7 +26,11 @@ class Container
         // this.canvas.height = window.innerHeight;
 
         this.repository = new Repository(this.canvas);
-        this.image = new MarkupImage(options.image);
+        this.image = new MarkupImage({
+            src: options.image,
+            containerWidth: this.canvas.width,
+            containerHeight: this.canvas.height
+        });
 
         
         window.requestAnimationFrame(this.draw.bind(this));
