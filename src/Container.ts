@@ -1,29 +1,40 @@
 import Repository from 'Repository'
+import MarkupImage from 'image/MarkupImage'
+
+interface ContainerOptions {
+    selector: string;
+    width: number;
+    height: number;
+    image: string;
+}
 
 class Container
 {
     protected canvas: HTMLCanvasElement
     protected ctx: CanvasRenderingContext2D
     protected repository: Repository
+    protected image: MarkupImage
 
-    constructor(selector: string, width: number, height: number) {
-        this.canvas = document.querySelector(selector) as HTMLCanvasElement;
+    constructor(options: ContainerOptions) {
+        this.canvas = document.querySelector(options.selector) as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
    
-        this.canvas.width = width;
-        this.canvas.height = height;
+        this.canvas.width = options.width;
+        this.canvas.height = options.height;
 
         // this.canvas.width = window.innerWidth;
         // this.canvas.height = window.innerHeight;
 
-        this.repository = new Repository(this.canvas)
+        this.repository = new Repository(this.canvas);
+        this.image = new MarkupImage(options.image);
 
+        
         window.requestAnimationFrame(this.draw.bind(this));
     }
 
     draw(): void {
         this.clear()
-
+        this.image.draw(this.ctx)
         const items = this.repository.getItems()
 
         for(const item of items) {
