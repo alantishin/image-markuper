@@ -4,7 +4,7 @@ class DrawableOptions {
     public strokeColor: string = 'red'
     public strokeWidth: number = 2
 
-    apply(ctx: CanvasRenderingContext2D) {
+    apply(ctx: CanvasRenderingContext2D): void {
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.fillColor
         ctx.strokeStyle = this.strokeColor

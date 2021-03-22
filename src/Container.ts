@@ -21,7 +21,7 @@ class Container
         window.requestAnimationFrame(this.draw.bind(this));
     }
 
-    draw() {
+    draw(): void {
         this.clear()
 
         const items = this.repository.getItems()
@@ -33,7 +33,7 @@ class Container
         window.requestAnimationFrame(this.draw.bind(this));
     }
 
-    clear() {
+    clear(): void {
         const width = this.canvas.width;
         const height = this.canvas.height;
 

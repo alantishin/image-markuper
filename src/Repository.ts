@@ -24,7 +24,7 @@ class Repository {
         this.canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
     }
 
-    onMouseDown(event: MouseEvent) {
+    onMouseDown(event: MouseEvent): void {
         this.items.push(new Bbox())
 
         const point = pointFromEvent(event)
@@ -32,7 +32,7 @@ class Repository {
         this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousedown, point)
     }
 
-    onMouseMove(event: MouseEvent) {
+    onMouseMove(event: MouseEvent): void {
         const point = pointFromEvent(event)
 
         if (this.items[this.items.length - 1]) {
@@ -40,7 +40,7 @@ class Repository {
         }
     }
 
-    onMouseUp(event: MouseEvent) {
+    onMouseUp(event: MouseEvent): void {
         const point = pointFromEvent(event)
 
         if (this.items[this.items.length - 1]) {
