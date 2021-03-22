@@ -6,12 +6,15 @@ class Container
     protected ctx: CanvasRenderingContext2D
     protected repository: Repository
 
-    constructor(selector: string) {
+    constructor(selector: string, width: number, height: number) {
         this.canvas = document.querySelector(selector) as HTMLCanvasElement;
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
    
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.width = width;
+        this.canvas.height = height;
+
+        // this.canvas.width = window.innerWidth;
+        // this.canvas.height = window.innerHeight;
 
         this.repository = new Repository(this.canvas)
 

@@ -1,4 +1,4 @@
 import Container from 'Container'
 
 
-const container = new Container('canvas')
+const container = new Container('canvas', 800, 600)
