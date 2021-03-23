@@ -3,6 +3,11 @@ import DrawableOptions from 'drawable/DrawableOptions'
 import { MouseEventsTypes } from 'util/MouseEventHelper'
 import Point from 'util/Point'
 
+export interface DrawOptions {
+    ctx: CanvasRenderingContext2D,
+    cursorPoint: Point | null
+}
+
 abstract class Drawable {
     protected options: DrawableOptions;
     protected _key: string;
@@ -12,7 +17,7 @@ abstract class Drawable {
         this._key = _uniqueId('drawable-')
     }
 
-    abstract draw(ctx: CanvasRenderingContext2D): void;
+    abstract draw(options: DrawOptions): void;
     abstract onMouseEvent(type: MouseEventsTypes, point: Point): void;
 }
 

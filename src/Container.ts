@@ -1,5 +1,6 @@
 import Repository from 'Repository'
 import MarkupImage from 'image/MarkupImage'
+import Point from 'util/Point';
 
 interface ContainerOptions {
     selector: string;
@@ -41,8 +42,13 @@ class Container
         this.image.draw(this.ctx)
         const items = this.repository.getItems()
 
+        const cursorPoint = this.repository.getCurrentPoint();
+
         for(const item of items) {
-            item.draw(this.ctx)
+            item.draw({
+                ctx: this.ctx, 
+                cursorPoint: cursorPoint
+            })
         }
 
         window.requestAnimationFrame(this.draw.bind(this));

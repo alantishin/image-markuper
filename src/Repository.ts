@@ -1,14 +1,17 @@
-import Drawable from 'drawable/Drawable'
-import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper'
+import Drawable from 'drawable/Drawable';
+import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
 import Bbox from 'drawable/Bbox';
+import Point from 'util/Point';
 
 class Repository {
     protected items: Array<Drawable> = []
 
     protected canvas: HTMLCanvasElement;
+    protected currentPoint: Point | null;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas
+        this.currentPoint = null
 
         this.initEditorEvents()
     }
@@ -42,6 +45,8 @@ class Repository {
     onMouseMove(event: MouseEvent): void {
         const point = pointFromEvent(event)
 
+        this.currentPoint = point
+
         if (this.items[this.items.length - 1]) {
             this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mousemove, point)
         }
@@ -58,6 +63,10 @@ class Repository {
         if (this.items[this.items.length - 1]) {
             this.items[this.items.length - 1].onMouseEvent(MouseEventsTypes.mouseup, point)
         }
+    }
+
+    getCurrentPoint(): Point | null {
+        return this.currentPoint
     }
 }
 
