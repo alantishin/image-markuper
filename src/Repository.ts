@@ -25,6 +25,13 @@ class Repository {
     }
 
     onMouseDown(event: MouseEvent): void {
+
+        console.log('[onMouseDown]', event)
+
+        if(event.button === 2) {
+            return ;
+        }
+        
         this.items.push(new Bbox())
 
         const point = pointFromEvent(event)
@@ -41,6 +48,11 @@ class Repository {
     }
 
     onMouseUp(event: MouseEvent): void {
+
+        if(event.button === 2) {
+            return ;
+        }
+
         const point = pointFromEvent(event)
 
         if (this.items[this.items.length - 1]) {
