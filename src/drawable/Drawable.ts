@@ -4,8 +4,7 @@ import { MouseEventsTypes } from 'util/MouseEventHelper'
 import Point from 'util/Point'
 
 export interface DrawOptions {
-    ctx: CanvasRenderingContext2D,
-    cursorPoint: Point | null
+    ctx: CanvasRenderingContext2D
 }
 
 abstract class Drawable {

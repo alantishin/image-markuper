@@ -1,8 +1,7 @@
 import Drawable from 'drawable/Drawable'
 import { DrawOptions } from 'drawable/Drawable'
 import Point from 'util/Point'
-import { MouseEventsTypes } from 'util/MouseEventHelper'
-
+import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
 
 enum editorStatus {
     none = "none",
@@ -16,11 +15,55 @@ class Bbox extends Drawable {
 
     protected status: editorStatus = editorStatus.drawingStart;
 
-    constructor() {
+    constructor(canvas: HTMLCanvasElement) {
         super();
+
+        canvas.addEventListener('mousedown', this.onMouseDown.bind(this))
+        canvas.addEventListener('mousemove', this.onMouseMove.bind(this))
+        canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
     }
 
-    onMouseEvent(type: MouseEventsTypes, point: Point): void {
+    onMouseDown(event: MouseEvent) : void
+    {
+        console.log('[onMouseDown]', event)
+
+        if(event.button === 2) {
+            return ;
+        }
+
+        const point = pointFromEvent(event)
+
+        if(this.status == editorStatus.drawingStart) {
+            this.point1 = point
+            this.status = editorStatus.drawingProgress
+        }
+    }
+
+    onMouseMove(event: MouseEvent) : void
+    {
+        const point = pointFromEvent(event)
+
+        if(this.status == editorStatus.drawingProgress) {
+            this.point2 = point
+        }
+    }
+
+    onMouseUp(event: MouseEvent): void {
+
+        if(event.button === 2) {
+            return ;
+        }
+
+        const point = pointFromEvent(event)
+
+        if(this.status == editorStatus.drawingProgress) {
+            this.point2 = point
+            this.status = editorStatus.none
+        }
+    }
+
+    onMouseEvent(type: MouseEventsTypes, point: Point): void 
+    {
         // console.log('[onMouseEvent]', type, point)
 
         if (type == MouseEventsTypes.mousedown && this.status == editorStatus.drawingStart) {
@@ -73,7 +116,7 @@ class Bbox extends Drawable {
     }
 
     draw(options: DrawOptions): void {
-        const { ctx, cursorPoint } = options;
+        const { ctx } = options;
 
         if (this.point1 && this.point2) {
 

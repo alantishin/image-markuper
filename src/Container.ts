@@ -42,12 +42,9 @@ class Container
         this.image.draw(this.ctx)
         const items = this.repository.getItems()
 
-        const cursorPoint = this.repository.getCurrentPoint();
-
         for(const item of items) {
             item.draw({
-                ctx: this.ctx, 
-                cursorPoint: cursorPoint
+                ctx: this.ctx
             })
         }
 
