@@ -69,19 +69,23 @@ class BboxDrawer extends Tool {
         }
     }
 
-    get x(): number | null {
+    get x(): number | null 
+    {
         return this.point1 ? this.point1.x : null;
     }
 
-    get y(): number | null {
+    get y(): number | null 
+    {
         return this.point1 ? this.point1.y : null;
     }
 
-    get width(): number | null {
+    get width(): number | null 
+    {
         return this.point2 && this.x ? this.point2.x - this.x : null;
     }
 
-    get height(): number | null {
+    get height(): number | null 
+    {
         return this.point2 && this.y ? this.point2.y - this.y : null;
     }
 
