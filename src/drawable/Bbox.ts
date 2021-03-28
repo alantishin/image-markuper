@@ -13,6 +13,8 @@ class Bbox extends Drawable {
     public point1: Point | null = null;
     public point2: Point | null = null;
 
+    protected mouseOver: boolean = false
+
     protected status: editorStatus = editorStatus.drawingStart;
 
     constructor(canvas: HTMLCanvasElement) {
@@ -47,8 +49,9 @@ class Bbox extends Drawable {
             this.point2 = point
         }
 
-        if(this.status == editorStatus.none) {
-            
+        if(this.status == editorStatus.none && this.bounds) {
+            this.mouseOver = this.bounds.intersectsPoint(point)
+
         }
     }
 
