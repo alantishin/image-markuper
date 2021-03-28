@@ -87,8 +87,6 @@ class BboxDrawer extends Tool {
 
     onMouseDown(event: MouseEvent) : void
     {
-        console.log('[onMouseDown]', event)
-
         if(event.button === 2) {
             return ;
         }
