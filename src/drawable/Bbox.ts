@@ -102,7 +102,24 @@ class Bbox extends Drawable {
             ctx.fill();
             ctx.stroke();
             ctx.closePath();
+
+            if (this.mouseOver && this.bounds) {
+                this.drawEditPoint(ctx, this.bounds.topLeft)
+                this.drawEditPoint(ctx, this.bounds.topRight)
+                this.drawEditPoint(ctx, this.bounds.bottomLeft)
+                this.drawEditPoint(ctx, this.bounds.bottomRight)
+            }
         }
+    }
+
+    drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void
+    {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 10, 0, 2 * Math.PI);
+                
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
     }
 
     get bounds(): Bounds | null

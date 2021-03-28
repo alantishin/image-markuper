@@ -38,6 +38,26 @@ class Bounds {
     {
         return Math.max(this.point1.y, this.point2.y)
     }
+
+    get topLeft(): Point
+    {
+        return new Point(this.xMin, this.yMin)
+    }
+
+    get topRight(): Point
+    {
+        return new Point(this.xMax, this.yMin)
+    }
+
+    get bottomLeft(): Point
+    {
+        return new Point(this.xMin, this.yMax)
+    }
+
+    get bottomRight(): Point
+    {
+        return new Point(this.xMax, this.yMax)
+    }
 }
 
 export default Bounds
