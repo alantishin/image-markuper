@@ -1,4 +1,4 @@
-class DrawableOptions {
+class ToolOptions {
     public opacity: number = 0.4
     public fillColor: string = 'orange'
     public strokeColor: string = 'red'
@@ -12,4 +12,4 @@ class DrawableOptions {
     }
 }
 
-export default DrawableOptions
+export default ToolOptions

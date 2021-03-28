@@ -1,9 +1,9 @@
-import Drawable from 'drawable/Drawable';
-import Bbox from 'drawable/bbox/Bbox';
+import Tool from 'tools/Tool';
+import Bbox from 'tools/bbox/Bbox';
 import Events from 'events'
 
 class Repository extends Events.EventEmitter  {
-    protected items: Array<Drawable> = []
+    protected items: Array<Tool> = []
 
     protected canvas: HTMLCanvasElement;
     constructor(canvas: HTMLCanvasElement) {
@@ -15,13 +15,13 @@ class Repository extends Events.EventEmitter  {
 
     startDrawing(): void
     {
-        const drawable = new Bbox({
+        const toolObject = new Bbox({
             canvas: this.canvas
         });
 
-        drawable.once('drawingStop', this.onDrawingStop.bind(this))
+        toolObject.once('drawingStop', this.onDrawingStop.bind(this))
 
-        this.items.push(drawable)
+        this.items.push(toolObject)
     }
 
     onDrawingStop(event: any): void
@@ -31,7 +31,7 @@ class Repository extends Events.EventEmitter  {
         this.startDrawing()
     }
 
-    getItems(): Array<Drawable> 
+    getItems(): Array<Tool> 
     {
         return this.items
     }

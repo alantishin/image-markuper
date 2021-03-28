@@ -1,14 +1,14 @@
-import Drawable from 'drawable/Drawable'
+import Tool from 'tools/Tool'
 import Point from 'util/Point'
 import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
 import Bounds from 'util/Bounds'
-import BboxDrawer from 'drawable/bbox/BboxDrawer'
+import BboxDrawer from 'tools/bbox/BboxDrawer'
 
 interface BboxParams {
     canvas: HTMLCanvasElement
 }
 
-class Bbox extends Drawable {
+class Bbox extends Tool {
     protected drawer: BboxDrawer | null;
 
     constructor(params: BboxParams) {

@@ -1,4 +1,4 @@
-import Drawable from 'drawable/Drawable'
+import Tool from 'tools/Tool'
 import Point from 'util/Point'
 import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
 
@@ -12,7 +12,7 @@ enum drawerStatus {
     drawingProgress = "drawingProgress"
 }
 
-class BboxDrawer extends Drawable {
+class BboxDrawer extends Tool {
 
     public point1: Point | null = null;
     public point2: Point | null = null;
