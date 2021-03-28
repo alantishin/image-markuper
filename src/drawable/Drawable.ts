@@ -17,7 +17,6 @@ abstract class Drawable extends Events.EventEmitter {
     }
 
     abstract draw(ctx: CanvasRenderingContext2D): void;
-    abstract onMouseEvent(type: MouseEventsTypes, point: Point): void;
 }
 
 export default Drawable

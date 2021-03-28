@@ -1,6 +1,7 @@
 import Drawable from 'drawable/Drawable'
 import Point from 'util/Point'
 import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
+import Bounds from 'util/Bounds'
 
 enum editorStatus {
     none = "none",
@@ -45,6 +46,10 @@ class Bbox extends Drawable {
         if(this.status == editorStatus.drawingProgress) {
             this.point2 = point
         }
+
+        if(this.status == editorStatus.none) {
+            
+        }
     }
 
     onMouseUp(event: MouseEvent): void {
@@ -58,43 +63,8 @@ class Bbox extends Drawable {
         if(this.status == editorStatus.drawingProgress) {
             this.point2 = point
             this.status = editorStatus.none
-        }
-    }
 
-    onMouseEvent(type: MouseEventsTypes, point: Point): void 
-    {
-        // console.log('[onMouseEvent]', type, point)
-
-        if (type == MouseEventsTypes.mousedown && this.status == editorStatus.drawingStart) {
-            // console.log('[onMouseEvent]', type, point)
-
-            this.point1 = point
-
-            this.status = editorStatus.drawingProgress
-        }
-
-        if (
-            type == MouseEventsTypes.mousemove &&
-            this.status == editorStatus.drawingProgress &&
-            this.x && this.y
-        ) {
-            // console.log('[onMouseEvent]', type, point)
-
-            this.point2 = point
-
-            // this.status = editStatus.none
-        }
-
-        if (
-            type == MouseEventsTypes.mouseup &&
-            this.status == editorStatus.drawingProgress &&
-            this.x && this.y
-        ) {
-            // console.log('[onMouseEvent]', type, point)
-
-            this.point2 = point
-
-            this.status = editorStatus.none
+            this.emit('drawingStop')
         }
     }
 
@@ -130,6 +100,15 @@ class Bbox extends Drawable {
             ctx.stroke();
             ctx.closePath();
         }
+    }
+
+    get bounds(): Bounds | null
+    {
+        if (this.point1 && this.point2) {
+            return new Bounds(this.point1, this.point2)
+        }
+
+        return null
     }
 }
 
