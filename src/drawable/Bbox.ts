@@ -1,5 +1,4 @@
 import Drawable from 'drawable/Drawable'
-import { DrawOptions } from 'drawable/Drawable'
 import Point from 'util/Point'
 import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
 
@@ -115,9 +114,8 @@ class Bbox extends Drawable {
         return this.point2 && this.y ? this.point2.y - this.y : null;
     }
 
-    draw(options: DrawOptions): void {
-        const { ctx } = options;
-
+    draw(ctx: CanvasRenderingContext2D): void 
+    {
         if (this.point1 && this.point2) {
 
             const x = this.x as number;

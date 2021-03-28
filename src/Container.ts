@@ -43,9 +43,7 @@ class Container
         const items = this.repository.getItems()
 
         for(const item of items) {
-            item.draw({
-                ctx: this.ctx
-            })
+            item.draw(this.ctx)
         }
 
         window.requestAnimationFrame(this.draw.bind(this));
