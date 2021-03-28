@@ -17,9 +17,12 @@ enum editorStatus {
 class BboxEditor extends Tool {
 
     protected points: Array<Point>
+    protected canvas: HTMLCanvasElement
 
-    constructor(bounds: Bounds) {
+    constructor(canvas: HTMLCanvasElement, bounds: Bounds) {
         super();
+
+        this.canvas = canvas
 
         this.points = [
             _cloneDeep(bounds.topLeft),
@@ -27,6 +30,29 @@ class BboxEditor extends Tool {
             _cloneDeep(bounds.bottomLeft),
             _cloneDeep(bounds.bottomRight),
         ]
+
+        this.initEvents()
+    }
+
+    initEvents(): void
+    {
+        this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this))
+        this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this))
+        this.canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
+    }
+
+    onMouseDown(event: MouseEvent) : void
+    {
+
+    }
+
+    onMouseMove(event: MouseEvent) : void
+    {
+
+    }
+
+    onMouseUp(event: MouseEvent): void {
+        
     }
 
     get xMin(): number {

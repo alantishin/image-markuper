@@ -36,7 +36,7 @@ class Bbox extends Tool {
 
     initEditor(bounds: Bounds): void
     {
-        this.editor = new BboxEditor(bounds)
+        this.editor = new BboxEditor(this.canvas, bounds)
     }
 
     onDrawingStop(event: any)
