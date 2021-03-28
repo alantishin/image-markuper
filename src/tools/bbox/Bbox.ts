@@ -1,6 +1,4 @@
 import Tool from 'tools/Tool'
-import Point from 'util/Point'
-import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
 import Bounds from 'util/Bounds'
 import BboxDrawer from 'tools/bbox/BboxDrawer'
 import BboxEditor from 'tools/bbox/BboxEditor'

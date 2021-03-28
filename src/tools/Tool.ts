@@ -1,7 +1,5 @@
 import _uniqueId from 'lodash/uniqueId'
 import ToolOptions from 'tools/ToolOptions'
-import { MouseEventsTypes } from 'util/MouseEventHelper'
-import Point from 'util/Point'
 import Events from 'events'
 
 

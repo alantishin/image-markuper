@@ -1,7 +1,7 @@
 import _cloneDeep from 'lodash/cloneDeep'
 import Tool from 'tools/Tool'
 import Point from 'util/Point'
-import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
+import { pointFromEvent } from 'util/MouseEventHelper';
 import Bounds from 'util/Bounds'
 
 interface BboxParams {
