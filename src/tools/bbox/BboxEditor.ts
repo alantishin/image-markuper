@@ -19,9 +19,10 @@ const EDITOR_POINT_RADIUS = 10
 class BboxEditor extends Tool {
 
     protected points: Array<Point>;
+
     protected canvas: HTMLCanvasElement;
     protected mouseHover: Boolean = false;
-    
+
     protected vPointHover: Point | null = null;
     protected vPointDraggable: Point | null = null;
 
@@ -40,30 +41,26 @@ class BboxEditor extends Tool {
         this.initEvents()
     }
 
-    initEvents(): void
-    {
+    initEvents(): void {
         this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this))
         this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this))
         this.canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
     }
 
-    onMouseDown(event: MouseEvent) : void
-    {
-        if(this.vPointHover) {
+    onMouseDown(event: MouseEvent): void {
+        if (this.vPointHover) {
             this.vPointDraggable = this.vPointHover
         }
     }
 
-    onMouseMove(event: MouseEvent) : void
-    {
+    onMouseMove(event: MouseEvent): void {
         const point = pointFromEvent(event)
 
         this.mouseHover = this.intersectsPoint(point)
         this.vPointHover = this.editorPointHover(point)
 
-        if(this.vPointDraggable) {
-            this.vPointDraggable.x = point.x
-            this.vPointDraggable.y = point.y
+        if (this.vPointDraggable) {
+            
         }
     }
 
@@ -71,8 +68,7 @@ class BboxEditor extends Tool {
         this.vPointDraggable = null;
     }
 
-    intersectsPoint(point: Point): boolean
-    {
+    intersectsPoint(point: Point): boolean {
         return (
             point.x > this.xMin &&
             point.x < this.xMax &&
@@ -81,12 +77,11 @@ class BboxEditor extends Tool {
         )
     }
 
-    editorPointHover(mPoint: Point): Point | null
-    {
-        for(const vPoint of this.points) {
+    editorPointHover(mPoint: Point): Point | null {
+        for (const vPoint of this.points) {
             const dist = vPoint.distancePoint(mPoint)
-            
-            if(dist < EDITOR_POINT_RADIUS) {
+
+            if (dist < EDITOR_POINT_RADIUS) {
                 return vPoint
             }
         }
@@ -134,20 +129,19 @@ class BboxEditor extends Tool {
         ctx.stroke();
         ctx.closePath();
 
-        if(this.mouseHover || this.vPointHover) {
-            for(const vPoint of this.points) {
+        if (this.mouseHover || this.vPointHover) {
+            for (const vPoint of this.points) {
                 this.drawEditPoint(ctx, vPoint)
             }
         }
     }
 
-    drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void
-    {
+    drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void {
         ctx.beginPath();
         this.options.apply(ctx);
         ctx.arc(point.x, point.y, EDITOR_POINT_RADIUS, 0, 2 * Math.PI);
-        
-        if(point === this.vPointHover) {
+
+        if (point === this.vPointHover) {
             ctx.fillStyle = 'red'
         }
 
