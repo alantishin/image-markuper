@@ -16,8 +16,9 @@ enum editorStatus {
 
 class BboxEditor extends Tool {
 
-    protected points: Array<Point>
-    protected canvas: HTMLCanvasElement
+    protected points: Array<Point>;
+    protected canvas: HTMLCanvasElement;
+    protected mouseHover: Boolean = false;
 
     constructor(canvas: HTMLCanvasElement, bounds: Bounds) {
         super();
@@ -48,11 +49,23 @@ class BboxEditor extends Tool {
 
     onMouseMove(event: MouseEvent) : void
     {
+        const point = pointFromEvent(event)
 
+        this.mouseHover = this.intersectsPoint(point)
     }
 
     onMouseUp(event: MouseEvent): void {
         
+    }
+
+    intersectsPoint(point: Point): boolean
+    {
+        return (
+            point.x > this.xMin &&
+            point.x < this.xMax &&
+            point.y > this.yMin &&
+            point.y < this.yMax
+        )
     }
 
     get xMin(): number {
@@ -91,6 +104,22 @@ class BboxEditor extends Tool {
         ctx.beginPath();
         this.options.apply(ctx);
         ctx.rect(this.xMin, this.yMin, this.width, this.height);
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+
+        if(this.mouseHover) {
+            for(const vPoint of this.points) {
+                this.drawEditPoint(ctx, vPoint)
+            }
+        }
+    }
+
+    drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void
+    {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 10, 0, 2 * Math.PI);
+                
         ctx.fill();
         ctx.stroke();
         ctx.closePath();

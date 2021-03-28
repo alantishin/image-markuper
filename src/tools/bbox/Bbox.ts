@@ -59,25 +59,6 @@ class Bbox extends Tool {
             this.editor.draw(ctx)
         }
     }
-
-    // drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void
-    // {
-    //     ctx.beginPath();
-    //     ctx.arc(point.x, point.y, 10, 0, 2 * Math.PI);
-                
-    //     ctx.fill();
-    //     ctx.stroke();
-    //     ctx.closePath();
-    // }
-
-    // get bounds(): Bounds | null
-    // {
-    //     if (this.point1 && this.point2) {
-    //         return new Bounds(this.point1, this.point2)
-    //     }
-
-    //     return null
-    // }
 }
 
 export default Bbox
