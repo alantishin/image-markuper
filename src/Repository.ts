@@ -28,7 +28,7 @@ class Repository extends Events.EventEmitter  {
     {
         console.log('[onDrawingStop]', event)
 
-        this.startDrawing()
+        // this.startDrawing()
     }
 
     getItems(): Array<Tool> 

@@ -21,7 +21,9 @@ class BboxEditor extends Tool {
     protected points: Array<Point>;
     protected canvas: HTMLCanvasElement;
     protected mouseHover: Boolean = false;
+    
     protected vPointHover: Point | null = null;
+    protected vPointDraggable: Point | null = null;
 
     constructor(canvas: HTMLCanvasElement, bounds: Bounds) {
         super();
@@ -47,7 +49,9 @@ class BboxEditor extends Tool {
 
     onMouseDown(event: MouseEvent) : void
     {
-
+        if(this.vPointHover) {
+            this.vPointDraggable = this.vPointHover
+        }
     }
 
     onMouseMove(event: MouseEvent) : void
@@ -56,10 +60,15 @@ class BboxEditor extends Tool {
 
         this.mouseHover = this.intersectsPoint(point)
         this.vPointHover = this.editorPointHover(point)
+
+        if(this.vPointDraggable) {
+            this.vPointDraggable.x = point.x
+            this.vPointDraggable.y = point.y
+        }
     }
 
     onMouseUp(event: MouseEvent): void {
-        
+        this.vPointDraggable = null;
     }
 
     intersectsPoint(point: Point): boolean
