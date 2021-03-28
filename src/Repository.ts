@@ -1,5 +1,5 @@
 import Drawable from 'drawable/Drawable';
-import Bbox from 'drawable/Bbox';
+import Bbox from 'drawable/bbox/Bbox';
 import Events from 'events'
 
 class Repository extends Events.EventEmitter  {
@@ -15,7 +15,9 @@ class Repository extends Events.EventEmitter  {
 
     startDrawing(): void
     {
-        const drawable = new Bbox(this.canvas);
+        const drawable = new Bbox({
+            canvas: this.canvas
+        });
 
         drawable.once('drawingStop', this.onDrawingStop.bind(this))
 
