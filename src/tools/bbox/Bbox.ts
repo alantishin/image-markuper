@@ -25,7 +25,10 @@ class Bbox extends Tool {
 
     onDrawingStop(event: any)
     {
+        console.log('[onDrawingStop]', event)
+
         this.emit('drawingStop', event)
+        this.drawer = null;
     }
 
     draw(ctx: CanvasRenderingContext2D): void 

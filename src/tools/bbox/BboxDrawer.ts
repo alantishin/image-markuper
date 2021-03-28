@@ -1,6 +1,8 @@
+import _cloneDeep from 'lodash/cloneDeep'
 import Tool from 'tools/Tool'
 import Point from 'util/Point'
 import { pointFromEvent, MouseEventsTypes } from 'util/MouseEventHelper';
+import Bounds from 'util/Bounds'
 
 interface BboxParams {
     canvas: HTMLCanvasElement
@@ -17,16 +19,36 @@ class BboxDrawer extends Tool {
     public point1: Point | null = null;
     public point2: Point | null = null;
 
+    protected canvas: HTMLCanvasElement;
+
     protected status: drawerStatus = drawerStatus.drawingStart;
+    protected eventFuncs: Map<string, any>;
 
     constructor(params: BboxParams) {
         super();
 
-        const { canvas } = params
+        this.canvas = params.canvas
+        this.eventFuncs = new Map()
+        
+        this.initEvents()
+    }
 
-        canvas.addEventListener('mousedown', this.onMouseDown.bind(this))
-        canvas.addEventListener('mousemove', this.onMouseMove.bind(this))
-        canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
+    initEvents(): void
+    {
+        this.eventFuncs.set('mousedown', this.onMouseDown.bind(this))
+        this.eventFuncs.set('mousemove', this.onMouseMove.bind(this))
+        this.eventFuncs.set('mouseup', this.onMouseUp.bind(this))
+
+        this.canvas.addEventListener('mousedown', this.eventFuncs.get('mousedown'))
+        this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
+        this.canvas.addEventListener('mouseup', this.eventFuncs.get('mouseup'))
+    }
+
+    clearListeners(): void
+    {
+        this.canvas.removeEventListener('mousedown', this.eventFuncs.get('mousedown'))
+        this.canvas.removeEventListener('mousemove', this.eventFuncs.get('mousemove'))
+        this.canvas.removeEventListener('mouseup', this.eventFuncs.get('mouseup'))
     }
 
     draw(ctx: CanvasRenderingContext2D): void 
@@ -99,8 +121,21 @@ class BboxDrawer extends Tool {
             this.point2 = point
             this.status = drawerStatus.none
 
-            this.emit('drawingStop')
+            this.clearListeners()
+
+            this.emit('drawingStop', {
+                bounds: _cloneDeep(this.bounds)
+            })
         }
+    }
+
+    get bounds(): Bounds | null
+    {
+        if (this.point1 && this.point2) {
+            return new Bounds(this.point1, this.point2)
+        }
+
+        return null
     }
 }
 
