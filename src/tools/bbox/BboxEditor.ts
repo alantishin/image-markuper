@@ -14,11 +14,14 @@ enum editorStatus {
     drawingProgress = "drawingProgress"
 }
 
+const EDITOR_POINT_RADIUS = 10
+
 class BboxEditor extends Tool {
 
     protected points: Array<Point>;
     protected canvas: HTMLCanvasElement;
     protected mouseHover: Boolean = false;
+    protected vPointHover: Point | null = null;
 
     constructor(canvas: HTMLCanvasElement, bounds: Bounds) {
         super();
@@ -52,6 +55,7 @@ class BboxEditor extends Tool {
         const point = pointFromEvent(event)
 
         this.mouseHover = this.intersectsPoint(point)
+        this.vPointHover = this.editorPointHover(point)
     }
 
     onMouseUp(event: MouseEvent): void {
@@ -66,6 +70,19 @@ class BboxEditor extends Tool {
             point.y > this.yMin &&
             point.y < this.yMax
         )
+    }
+
+    editorPointHover(mPoint: Point): Point | null
+    {
+        for(const vPoint of this.points) {
+            const dist = vPoint.distancePoint(mPoint)
+            
+            if(dist < EDITOR_POINT_RADIUS) {
+                return vPoint
+            }
+        }
+
+        return null
     }
 
     get xMin(): number {
@@ -108,7 +125,7 @@ class BboxEditor extends Tool {
         ctx.stroke();
         ctx.closePath();
 
-        if(this.mouseHover) {
+        if(this.mouseHover || this.vPointHover) {
             for(const vPoint of this.points) {
                 this.drawEditPoint(ctx, vPoint)
             }
@@ -118,8 +135,13 @@ class BboxEditor extends Tool {
     drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void
     {
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 10, 0, 2 * Math.PI);
-                
+        this.options.apply(ctx);
+        ctx.arc(point.x, point.y, EDITOR_POINT_RADIUS, 0, 2 * Math.PI);
+        
+        if(point === this.vPointHover) {
+            ctx.fillStyle = 'red'
+        }
+
         ctx.fill();
         ctx.stroke();
         ctx.closePath();
