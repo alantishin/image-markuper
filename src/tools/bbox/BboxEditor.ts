@@ -58,8 +58,7 @@ class BboxEditor extends Tool {
         }
     }
 
-    getPointNeigbour(point: any, prop: string): Point | null
-    {
+    getPointNeigbour(point: any, prop: string): Point | null {
         return this.points.find(el => {
             return (
                 el !== point &&
@@ -171,6 +170,10 @@ class BboxEditor extends Tool {
         ctx.fill();
         ctx.stroke();
         ctx.closePath();
+    }
+
+    hasHoverEditor(): boolean {
+        return !!this.vPointHover
     }
 }
 

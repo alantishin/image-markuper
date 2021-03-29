@@ -2,9 +2,13 @@ import Tool from 'tools/Tool'
 import Bounds from 'util/Bounds'
 import BboxDrawer from 'tools/bbox/BboxDrawer'
 import BboxEditor from 'tools/bbox/BboxEditor'
+import Point from 'util/Point'
 
 interface BboxParams {
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement;
+    drawer?: {
+        event: MouseEvent
+    }
 }
 
 class Bbox extends Tool {
@@ -19,14 +23,18 @@ class Bbox extends Tool {
         this.drawer = null;
         this.editor = null;
 
-        this.initDrawer();
-        
+        if (params.drawer) {
+            this.initDrawer(params);
+        }
     }
 
-    initDrawer(): void
+    initDrawer(params: BboxParams): void
     {
         this.drawer = new BboxDrawer({
-            canvas: this.canvas
+            canvas: this.canvas,
+            drawer: {
+                event: params.drawer?.event as MouseEvent
+            }
         })
 
         this.drawer.once('drawingStop', this.onDrawingStop.bind(this))
@@ -39,8 +47,6 @@ class Bbox extends Tool {
 
     onDrawingStop(event: any)
     {
-        console.log('[onDrawingStop]', event)
-
         this.emit('drawingStop', event)
         this.drawer = null;
 
@@ -56,6 +62,14 @@ class Bbox extends Tool {
         if (this.editor) {
             this.editor.draw(ctx)
         }
+    }
+
+    hasHoverEditor(): boolean {
+        if(this.editor) {
+            return this.editor.hasHoverEditor()
+        }
+
+        return false
     }
 }
 

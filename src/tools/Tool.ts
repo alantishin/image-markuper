@@ -15,6 +15,9 @@ abstract class Tool extends Events.EventEmitter {
     }
 
     abstract draw(ctx: CanvasRenderingContext2D): void;
+    hasHoverEditor(): boolean {
+        return false
+    }
 }
 
 export default Tool

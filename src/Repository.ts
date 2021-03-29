@@ -1,6 +1,6 @@
 import Tool from 'tools/Tool';
 import Bbox from 'tools/bbox/Bbox';
-import Events from 'events'
+import Events from 'events';
 
 class Repository extends Events.EventEmitter  {
     protected items: Array<Tool> = []
@@ -10,13 +10,30 @@ class Repository extends Events.EventEmitter  {
         super()
         this.canvas = canvas
 
-        this.startDrawing()
+        this.canvas.addEventListener('mousedown', this.startDrawingHandler.bind(this))
     }
 
-    startDrawing(): void
+    hasHoverEditor(): boolean
     {
+        const item = this.items.find(el => {
+            return el.hasHoverEditor()
+        })
+
+        return !!item
+    }
+
+    startDrawingHandler(event: MouseEvent): void
+    {
+
+        if(this.hasHoverEditor()) {
+            return ;
+        }
+
         const toolObject = new Bbox({
-            canvas: this.canvas
+            canvas: this.canvas,
+            drawer: {
+                event: event
+            }
         });
 
         toolObject.once('drawingStop', this.onDrawingStop.bind(this))
@@ -27,8 +44,6 @@ class Repository extends Events.EventEmitter  {
     onDrawingStop(event: any): void
     {
         console.log('[onDrawingStop]', event)
-
-        // this.startDrawing()
     }
 
     getItems(): Array<Tool> 

@@ -5,7 +5,10 @@ import { pointFromEvent } from 'util/MouseEventHelper';
 import Bounds from 'util/Bounds'
 
 interface BboxParams {
-    canvas: HTMLCanvasElement
+    canvas: HTMLCanvasElement,
+    drawer?: {
+        event: MouseEvent
+    }
 }
 
 enum drawerStatus {
@@ -31,6 +34,10 @@ class BboxDrawer extends Tool {
         this.eventFuncs = new Map()
         
         this.initEvents()
+
+        if(params.drawer?.event) {
+            this.onMouseDown(params.drawer.event)
+        }
     }
 
     initEvents(): void
@@ -39,7 +46,7 @@ class BboxDrawer extends Tool {
         this.eventFuncs.set('mousemove', this.onMouseMove.bind(this))
         this.eventFuncs.set('mouseup', this.onMouseUp.bind(this))
 
-        this.canvas.addEventListener('mousedown', this.eventFuncs.get('mousedown'))
+        // this.canvas.addEventListener('mousedown', this.eventFuncs.get('mousedown'))
         this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
         this.canvas.addEventListener('mouseup', this.eventFuncs.get('mouseup'))
     }
