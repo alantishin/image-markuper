@@ -24,7 +24,10 @@ class BboxEditor extends Tool {
     protected mouseHover: Boolean = false;
 
     protected vPointHover: Point | null = null;
+
     protected vPointDraggable: Point | null = null;
+    protected vPointDraggableNeigbourX: Point | null = null;
+    protected vPointDraggableNeigbourY: Point | null = null;
 
     constructor(canvas: HTMLCanvasElement, bounds: Bounds) {
         super();
@@ -50,7 +53,19 @@ class BboxEditor extends Tool {
     onMouseDown(event: MouseEvent): void {
         if (this.vPointHover) {
             this.vPointDraggable = this.vPointHover
+            this.vPointDraggableNeigbourX = this.getPointNeigbour(this.vPointDraggable, 'x')
+            this.vPointDraggableNeigbourY = this.getPointNeigbour(this.vPointDraggable, 'y')
         }
+    }
+
+    getPointNeigbour(point: any, prop: string): Point | null
+    {
+        return this.points.find(el => {
+            return (
+                el !== point &&
+                el[prop as keyof Point] === point[prop as keyof Point]
+            )
+        }) || null
     }
 
     onMouseMove(event: MouseEvent): void {
@@ -59,13 +74,21 @@ class BboxEditor extends Tool {
         this.mouseHover = this.intersectsPoint(point)
         this.vPointHover = this.editorPointHover(point)
 
-        if (this.vPointDraggable) {
+        if (this.vPointDraggable && this.vPointDraggableNeigbourX && this.vPointDraggableNeigbourY) {
+            this.vPointDraggable.x = point.x
+            this.vPointDraggable.y = point.y
 
+            this.vPointDraggableNeigbourX.x = point.x
+            this.vPointDraggableNeigbourY.y = point.y
         }
     }
 
     onMouseUp(event: MouseEvent): void {
+        const point = pointFromEvent(event)
+
         this.vPointDraggable = null;
+        this.vPointDraggableNeigbourX = null;
+        this.vPointDraggableNeigbourY = null;
     }
 
     intersectsPoint(point: Point): boolean {
