@@ -1,6 +1,6 @@
 {
   "name": "drawer",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Js canvas drawing tool",
   "main": "index.js",
   "scripts": {
