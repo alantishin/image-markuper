@@ -21,7 +21,7 @@ abstract class Tool extends Events.EventEmitter {
         return false
     }
 
-    checkMinSize(imageArea: number, minArea: number, bounds: Bounds) {
+    checkMinArea(imageArea: number, minArea: number, bounds: Bounds) {
         return (bounds.area / imageArea ) * 100 >  minArea
     }
 }

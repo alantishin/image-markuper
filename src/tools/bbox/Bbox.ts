@@ -53,7 +53,7 @@ class Bbox extends Tool {
 
     onDrawingStop(event: any)
     {
-        const minSizePassed = this.checkMinSize(
+        const minSizePassed = this.checkMinArea(
             this.img.cArea as number,
             MIN_AREA,
             event.bounds
