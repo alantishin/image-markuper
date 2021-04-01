@@ -90,7 +90,7 @@ class BboxEditor extends Tool {
         this.vPointDraggableNeigbourX = null;
         this.vPointDraggableNeigbourY = null;
 
-        this.rebuildPoints()
+        
     }
 
     intersectsPoint(point: Point): boolean {
@@ -211,16 +211,6 @@ class BboxEditor extends Tool {
 
     hasHoverEditor(): boolean {
         return !!this.vPointHover
-    }
-
-    rebuildPoints(): void
-    {
-        this.points = [
-            new Point(this.xMin, this.yMin),
-            new Point(this.xMax, this.yMax),
-            new Point(this.xMin, this.yMax),
-            new Point(this.xMax, this.yMin)
-        ]
     }
 }
 
