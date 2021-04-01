@@ -23,6 +23,8 @@ class BboxEditor extends Tool {
     protected vPointDraggableNeigbourX: Point | null = null;
     protected vPointDraggableNeigbourY: Point | null = null;
 
+    protected dPointHover: boolean = false;
+
     constructor(canvas: HTMLCanvasElement, bounds: Bounds) {
         super();
 
@@ -81,6 +83,8 @@ class BboxEditor extends Tool {
             this.vPointDraggableNeigbourX.x = point.x
             this.vPointDraggableNeigbourY.y = point.y
         }
+
+        this.dPointHover = this.deletePointHover(point)
     }
 
     onMouseUp(event: MouseEvent): void {
@@ -89,8 +93,6 @@ class BboxEditor extends Tool {
         this.vPointDraggable = null;
         this.vPointDraggableNeigbourX = null;
         this.vPointDraggableNeigbourY = null;
-
-        
     }
 
     intersectsPoint(point: Point): boolean {
@@ -112,6 +114,12 @@ class BboxEditor extends Tool {
         }
 
         return null
+    }
+
+    deletePointHover(mPoint: Point): boolean {
+        const dist = this.center.distancePoint(mPoint)
+
+        return dist < EDITOR_POINT_RADIUS
     }
 
     get xMin(): number {
@@ -157,7 +165,7 @@ class BboxEditor extends Tool {
 
     get center(): Point {
         return new Point(
-            this.xMin +  (this.width / 2),
+            this.xMin + (this.width / 2),
             this.yMax - (this.height / 2),
         )
     }
@@ -200,7 +208,7 @@ class BboxEditor extends Tool {
         this.options.apply(ctx);
         ctx.arc(point.x, point.y, EDITOR_POINT_RADIUS, 0, 2 * Math.PI);
 
-        if (point === this.vPointHover) {
+        if (this.dPointHover) {
             ctx.fillStyle = 'red'
         }
 
@@ -210,7 +218,7 @@ class BboxEditor extends Tool {
     }
 
     hasHoverEditor(): boolean {
-        return !!this.vPointHover
+        return !!this.vPointHover || this.dPointHover
     }
 }
 
