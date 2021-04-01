@@ -8,12 +8,6 @@ interface BboxParams {
     canvas: HTMLCanvasElement
 }
 
-enum editorStatus {
-    none = "none",
-    drawingStart = "drawingStart",
-    drawingProgress = "drawingProgress"
-}
-
 const EDITOR_POINT_RADIUS = 10
 
 class BboxEditor extends Tool {
@@ -151,7 +145,7 @@ class BboxEditor extends Tool {
         ctx.stroke();
         ctx.closePath();
 
-        if (this.mouseHover || this.vPointHover) {
+        if (this.mouseHover || this.vPointHover || this.vPointDraggable) {
             for (const vPoint of this.points) {
                 this.drawEditPoint(ctx, vPoint)
             }
