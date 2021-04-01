@@ -1,7 +1,8 @@
 import _uniqueId from 'lodash/uniqueId'
 import ToolOptions from 'tools/ToolOptions'
 import Events from 'events'
-
+import Bounds from 'util/Bounds'
+import MarkupImage from 'image/MarkupImage'
 
 abstract class Tool extends Events.EventEmitter {
     protected options: ToolOptions;
@@ -15,8 +16,13 @@ abstract class Tool extends Events.EventEmitter {
     }
 
     abstract draw(ctx: CanvasRenderingContext2D): void;
+    
     hasHoverEditor(): boolean {
         return false
+    }
+
+    checkMinSize(imageArea: number, minArea: number, bounds: Bounds) {
+        return (bounds.area / imageArea ) * 100 >  minArea
     }
 }
 

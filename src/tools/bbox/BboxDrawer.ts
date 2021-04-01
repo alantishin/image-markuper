@@ -32,7 +32,7 @@ class BboxDrawer extends Tool {
 
         this.canvas = params.canvas
         this.eventFuncs = new Map()
-        
+
         this.initEvents()
 
         if(params.drawer?.event) {

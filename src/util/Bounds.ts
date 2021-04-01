@@ -58,6 +58,18 @@ class Bounds {
     {
         return new Point(this.xMax, this.yMax)
     }
+
+    get width(): number {
+        return this.xMax - this.xMin;
+    }
+
+    get height(): number {
+        return this.yMax - this.yMin
+    }
+
+    get area(): number {
+        return this.width * this.height
+    }
 }
 
 export default Bounds

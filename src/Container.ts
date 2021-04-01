@@ -13,7 +13,7 @@ class Container
 {
     protected canvas: HTMLCanvasElement
     protected ctx: CanvasRenderingContext2D
-    protected repository: Repository
+    protected repository: Repository | null = null
     protected image: MarkupImage
 
     constructor(options: ContainerOptions) {
@@ -26,18 +26,24 @@ class Container
         // this.canvas.width = window.innerWidth;
         // this.canvas.height = window.innerHeight;
 
-        this.repository = new Repository(this.canvas);
         this.image = new MarkupImage({
             src: options.image,
             containerWidth: this.canvas.width,
-            containerHeight: this.canvas.height
+            containerHeight: this.canvas.height,
+            onLoad: () => {
+                this.repository = new Repository(this.canvas, this.image);
+                window.requestAnimationFrame(this.draw.bind(this));
+            }
         });
-
         
-        window.requestAnimationFrame(this.draw.bind(this));
+        
     }
 
     draw(): void {
+        if(! this.repository) {
+            return ;
+        }
+
         this.clear()
         this.image.draw(this.ctx)
         const items = this.repository.getItems()

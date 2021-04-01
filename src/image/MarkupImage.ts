@@ -4,6 +4,7 @@ interface MarkupImageOptions {
     src: string;
     containerWidth: number;
     containerHeight: number;
+    onLoad?: Function
 }
 
 class MarkupImage {
@@ -16,7 +17,10 @@ class MarkupImage {
     protected containerHeight: number;
 
     protected naturalWidth: number | null = null;
-    protected naturalHeight: number | null = null;;
+    protected naturalHeight: number | null = null;
+
+    protected _cWidth: number | null = null
+    protected _cHeight: number | null = null
 
     constructor(options: MarkupImageOptions) {
         this.src = options.src
@@ -26,10 +30,15 @@ class MarkupImage {
 
         this.img = new Image();
         this.img.src = this.src;
+
         this.img.addEventListener("load", () => {
             this.naturalWidth = this.img.naturalWidth
             this.naturalHeight = this.img.naturalHeight
             this.loaded = true;
+
+            if (options.onLoad) {
+                options.onLoad()
+            }
         });
     }
 
@@ -47,8 +56,30 @@ class MarkupImage {
                 maxHeigth: this.containerHeight
             })
 
+            this._cWidth = options.width
+            this._cHeight = options.height
+
             ctx.drawImage(this.img, options.x, options.y, options.width, options.height);
         }
+    }
+
+    get cWidth(): number | null
+    {
+        return this._cWidth
+    }
+
+    get cHeight(): number | null
+    {
+        return this._cHeight
+    }
+
+    get cArea(): number | null
+    {
+        if(this.cWidth && this.cHeight) {
+            return this.cWidth * this.cHeight
+        } 
+
+        return null;
     }
 }
 
