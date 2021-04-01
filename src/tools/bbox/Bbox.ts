@@ -2,7 +2,6 @@ import Tool from 'tools/Tool'
 import Bounds from 'util/Bounds'
 import BboxDrawer from 'tools/bbox/BboxDrawer'
 import BboxEditor from 'tools/bbox/BboxEditor'
-import Point from 'util/Point'
 
 interface BboxParams {
     canvas: HTMLCanvasElement;

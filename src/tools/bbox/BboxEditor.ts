@@ -42,6 +42,13 @@ class BboxEditor extends Tool {
         this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this))
         this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this))
         this.canvas.addEventListener('mouseup', this.onMouseUp.bind(this))
+
+        this.canvas.addEventListener('click', this.onContextMenu.bind(this));
+    }
+
+    onContextMenu(event: MouseEvent) {
+        console.log(event)
+        event.preventDefault()
     }
 
     onMouseDown(event: MouseEvent): void {
@@ -82,6 +89,8 @@ class BboxEditor extends Tool {
         this.vPointDraggable = null;
         this.vPointDraggableNeigbourX = null;
         this.vPointDraggableNeigbourY = null;
+
+        this.rebuildPoints()
     }
 
     intersectsPoint(point: Point): boolean {
@@ -137,6 +146,22 @@ class BboxEditor extends Tool {
         return this.yMax - this.yMin
     }
 
+    get topLeft(): Point {
+        return new Point(this.xMin, this.yMin);
+    }
+
+    get bottomRight(): Point {
+        return new Point(this.xMax, this.yMax);
+    }
+
+
+    get center(): Point {
+        return new Point(
+            this.xMin +  (this.width / 2),
+            this.yMax - (this.height / 2),
+        )
+    }
+
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.beginPath();
         this.options.apply(ctx);
@@ -149,6 +174,8 @@ class BboxEditor extends Tool {
             for (const vPoint of this.points) {
                 this.drawEditPoint(ctx, vPoint)
             }
+
+            this.drawDeletePoint(ctx)
         }
     }
 
@@ -166,8 +193,34 @@ class BboxEditor extends Tool {
         ctx.closePath();
     }
 
+    drawDeletePoint(ctx: CanvasRenderingContext2D): void {
+        const point = this.center;
+
+        ctx.beginPath();
+        this.options.apply(ctx);
+        ctx.arc(point.x, point.y, EDITOR_POINT_RADIUS, 0, 2 * Math.PI);
+
+        if (point === this.vPointHover) {
+            ctx.fillStyle = 'red'
+        }
+
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+    }
+
     hasHoverEditor(): boolean {
         return !!this.vPointHover
+    }
+
+    rebuildPoints(): void
+    {
+        this.points = [
+            new Point(this.xMin, this.yMin),
+            new Point(this.xMax, this.yMax),
+            new Point(this.xMin, this.yMax),
+            new Point(this.xMax, this.yMin)
+        ]
     }
 }
 
