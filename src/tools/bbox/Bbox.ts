@@ -89,7 +89,11 @@ class Bbox extends Tool {
         }
     }
 
-    hasHoverEditor(): boolean {
+    isFocused(): boolean {
+        if(this.drawer) {
+            return true
+        }
+
         if(this.editor) {
             return this.editor.hasHoverEditor()
         }

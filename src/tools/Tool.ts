@@ -17,7 +17,7 @@ abstract class Tool extends Events.EventEmitter {
 
     abstract draw(ctx: CanvasRenderingContext2D): void;
     
-    hasHoverEditor(): boolean {
+    isFocused(): boolean {
         return false
     }
 

@@ -36,26 +36,25 @@ class BboxDrawer extends Tool {
         this.initEvents()
 
         if(params.drawer?.event) {
-            this.onMouseDown(params.drawer.event)
+            this.onMouseClick(params.drawer.event)
         }
     }
 
     initEvents(): void
     {
-        this.eventFuncs.set('mousedown', this.onMouseDown.bind(this))
+        this.eventFuncs.set('click', this.onMouseClick.bind(this))
         this.eventFuncs.set('mousemove', this.onMouseMove.bind(this))
-        this.eventFuncs.set('mouseup', this.onMouseUp.bind(this))
 
-        // this.canvas.addEventListener('mousedown', this.eventFuncs.get('mousedown'))
-        this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
-        this.canvas.addEventListener('mouseup', this.eventFuncs.get('mouseup'))
+        setTimeout(() => {
+            this.canvas.addEventListener('click', this.eventFuncs.get('click'))
+            this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
+        }, 100)
     }
 
     clearListeners(): void
     {
-        this.canvas.removeEventListener('mousedown', this.eventFuncs.get('mousedown'))
+        this.canvas.removeEventListener('click', this.eventFuncs.get('click'))
         this.canvas.removeEventListener('mousemove', this.eventFuncs.get('mousemove'))
-        this.canvas.removeEventListener('mouseup', this.eventFuncs.get('mouseup'))
     }
 
     draw(ctx: CanvasRenderingContext2D): void 
@@ -96,7 +95,7 @@ class BboxDrawer extends Tool {
         return this.point2 && this.y ? this.point2.y - this.y : null;
     }
 
-    onMouseDown(event: MouseEvent) : void
+    onMouseClick(event: MouseEvent) : void
     {
         if(event.button === 2) {
             return ;
@@ -105,26 +104,12 @@ class BboxDrawer extends Tool {
         const point = pointFromEvent(event)
 
         if(this.status == drawerStatus.drawingStart) {
+            
             this.point1 = point
             this.status = drawerStatus.drawingProgress
-        }
-    }
 
-    onMouseMove(event: MouseEvent) : void
-    {
-        const point = pointFromEvent(event)
-
-        if(this.status == drawerStatus.drawingProgress) {
-            this.point2 = point
-        }
-    }
-
-    onMouseUp(event: MouseEvent): void {
-        if(event.button === 2) {
             return ;
         }
-
-        const point = pointFromEvent(event)
 
         if(this.status == drawerStatus.drawingProgress) {
             this.point2 = point
@@ -135,6 +120,17 @@ class BboxDrawer extends Tool {
             this.emit('drawingStop', {
                 bounds: _cloneDeep(this.bounds)
             })
+
+            return ;
+        }
+    }
+
+    onMouseMove(event: MouseEvent) : void
+    {
+        const point = pointFromEvent(event)
+
+        if(this.status == drawerStatus.drawingProgress) {
+            this.point2 = point
         }
     }
 

@@ -1,8 +1,9 @@
 import Tool from 'tools/Tool';
-import Bbox from 'tools/bbox/Bbox';
 import Events from 'events';
 import MarkupImage from 'image/MarkupImage'
-import Bounds from 'util/Bounds'
+import Bbox from 'tools/bbox/Bbox';
+import Polygon from 'tools/polygon/Polygon';
+
 
 const minArea = 0.1;
 
@@ -23,7 +24,7 @@ class Repository extends Events.EventEmitter  {
     hasHoverEditor(): boolean
     {
         const item = this.items.find(el => {
-            return el.hasHoverEditor()
+            return el.isFocused()
         })
 
         return !!item
