@@ -37,7 +37,7 @@ class Repository extends Events.EventEmitter  {
             return ;
         }
 
-        const toolObject = new Bbox({
+        const toolObject = new Polygon({
             canvas: this.canvas,
             drawer: {
                 event: event

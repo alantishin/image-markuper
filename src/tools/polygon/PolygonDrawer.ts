@@ -19,8 +19,8 @@ enum drawerStatus {
 
 class PolygonDrawer extends Tool {
 
-    public point1: Point | null = null;
-    public point2: Point | null = null;
+    public points: Array<Point> = []
+    public currentPoint: Point | null = null
 
     protected canvas: HTMLCanvasElement;
 
@@ -36,54 +36,76 @@ class PolygonDrawer extends Tool {
         this.initEvents()
 
         if(params.drawer?.event) {
-            this.onMouseDown(params.drawer.event)
+            this.onMouseClick(params.drawer.event)
         }
     }
 
     initEvents(): void
     {
-        this.eventFuncs.set('mousedown', this.onMouseDown.bind(this))
+        this.eventFuncs.set('click', this.onMouseClick.bind(this))
         this.eventFuncs.set('mousemove', this.onMouseMove.bind(this))
-        this.eventFuncs.set('mouseup', this.onMouseUp.bind(this))
 
-        // this.canvas.addEventListener('mousedown', this.eventFuncs.get('mousedown'))
-        this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
-        this.canvas.addEventListener('mouseup', this.eventFuncs.get('mouseup'))
+        setTimeout(() => {
+            this.canvas.addEventListener('click', this.eventFuncs.get('click'))
+            this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
+        }, 100)
     }
 
     clearListeners(): void
     {
-        this.canvas.removeEventListener('mousedown', this.eventFuncs.get('mousedown'))
+        this.canvas.removeEventListener('click', this.eventFuncs.get('click'))
         this.canvas.removeEventListener('mousemove', this.eventFuncs.get('mousemove'))
-        this.canvas.removeEventListener('mouseup', this.eventFuncs.get('mouseup'))
     }
 
     draw(ctx: CanvasRenderingContext2D): void 
     {
+        if (this.points.length > 0) {
+            ctx.beginPath();
 
+            const firstPoint = this.points[0]
+
+            ctx.moveTo(firstPoint.x, firstPoint.y);
+
+            this.options.apply(ctx);
+            
+            for(const point of this.points) {
+                ctx.lineTo(point.x, point.y);
+            }
+
+            if(this.currentPoint) {
+                ctx.lineTo(this.currentPoint.x, this.currentPoint.y);
+            }
+
+            // ctx.moveTo(firstPoint.x, firstPoint.y);
+            
+            ctx.closePath();
+
+            ctx.fill();
+            ctx.stroke();
+        }
     }
 
 
-    onMouseDown(event: MouseEvent) : void
+    onMouseClick(event: MouseEvent) : void
     {
+        const point = pointFromEvent(event)
 
+        if(this.status == drawerStatus.drawingStart) {
+            this.status = drawerStatus.drawingProgress
+        }
+
+        this.points.push(point)
     }
 
     onMouseMove(event: MouseEvent) : void
     {
+        const point = pointFromEvent(event)
 
+        if(this.status == drawerStatus.drawingProgress) {
+            this.currentPoint = point
+        }
     }
 
-    onMouseUp(event: MouseEvent): void {
-
-    }
-
-    get bounds(): Bounds | null
-    {
-
-
-        return null
-    }
 }
 
 export default PolygonDrawer

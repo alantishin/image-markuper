@@ -58,19 +58,23 @@ class Polygon extends Tool {
 
     draw(ctx: CanvasRenderingContext2D): void 
     {
-        // if(this.drawer) {
-        //     this.drawer.draw(ctx)
-        // }
+        if(this.drawer) {
+            this.drawer.draw(ctx)
+        }
 
         // if (this.editor) {
         //     this.editor.draw(ctx)
         // }
     }
 
-    hasHoverEditor(): boolean {
-        // if(this.editor) {
-        //     return this.editor.hasHoverEditor()
-        // }
+    isFocused(): boolean {
+        if(this.drawer) {
+            return true
+        }
+
+        if(this.editor) {
+            return this.editor.hasHoverEditor()
+        }
 
         return false
     }
