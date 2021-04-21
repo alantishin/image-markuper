@@ -44,10 +44,12 @@ class PolygonDrawer extends Tool {
     {
         this.eventFuncs.set('click', this.onMouseClick.bind(this))
         this.eventFuncs.set('mousemove', this.onMouseMove.bind(this))
+        this.eventFuncs.set('dblclick', this.onMouseDbClick.bind(this))
 
         setTimeout(() => {
             this.canvas.addEventListener('click', this.eventFuncs.get('click'))
             this.canvas.addEventListener('mousemove', this.eventFuncs.get('mousemove'))
+            this.canvas.addEventListener('dblclick', this.eventFuncs.get('dblclick'))
         }, 100)
     }
 
@@ -55,6 +57,7 @@ class PolygonDrawer extends Tool {
     {
         this.canvas.removeEventListener('click', this.eventFuncs.get('click'))
         this.canvas.removeEventListener('mousemove', this.eventFuncs.get('mousemove'))
+        this.canvas.removeEventListener('dblclick', this.eventFuncs.get('dblclick'))
     }
 
     draw(ctx: CanvasRenderingContext2D): void 
@@ -97,13 +100,22 @@ class PolygonDrawer extends Tool {
         this.points.push(point)
     }
 
-    onMouseMove(event: MouseEvent) : void
+    onMouseMove(event: MouseEvent): void
     {
         const point = pointFromEvent(event)
 
         if(this.status == drawerStatus.drawingProgress) {
             this.currentPoint = point
         }
+    }
+
+    onMouseDbClick(event: MouseEvent): void
+    {
+        this.clearListeners()
+
+        this.emit('drawingStop', {
+            
+        })
     }
 
 }
