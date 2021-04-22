@@ -72,7 +72,7 @@ class Bbox extends Tool {
 
         this.emit('drawingStop', {
             target: this,
-            bounds: event.event,
+            bounds: event.bounds,
         })
 
         this.initEditor(event.bounds);
