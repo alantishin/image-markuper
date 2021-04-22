@@ -1,6 +1,6 @@
 import Repository from 'Repository'
 import MarkupImage from 'image/MarkupImage'
-import Point from 'util/Point';
+import Point from 'geom/Point'
 
 interface ContainerOptions {
     selector: string;

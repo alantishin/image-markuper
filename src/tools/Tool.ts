@@ -1,7 +1,7 @@
 import _uniqueId from 'lodash/uniqueId'
 import ToolOptions from 'tools/ToolOptions'
 import Events from 'events'
-import Bounds from 'util/Bounds'
+import Bounds from 'geom/Bounds'
 import MarkupImage from 'image/MarkupImage'
 
 abstract class Tool extends Events.EventEmitter {

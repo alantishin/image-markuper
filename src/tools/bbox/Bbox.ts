@@ -1,5 +1,5 @@
 import Tool from 'tools/Tool'
-import Bounds from 'util/Bounds'
+import Bounds from 'geom/Bounds'
 import BboxDrawer from 'tools/bbox/BboxDrawer'
 import BboxEditor from 'tools/bbox/BboxEditor'
 import MarkupImage from 'image/MarkupImage'

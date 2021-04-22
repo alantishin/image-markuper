@@ -1,4 +1,4 @@
-import Point from 'util/Point'
+import Point from 'geom/Point'
 
 export const pointFromEvent = function(event: MouseEvent): Point {
     return new Point(event.offsetX, event.offsetY)

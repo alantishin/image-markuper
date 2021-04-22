@@ -1,4 +1,4 @@
-import Point from 'util/Point'
+import Point from 'geom/Point'
 
 class Bounds {
     protected point1: Point;

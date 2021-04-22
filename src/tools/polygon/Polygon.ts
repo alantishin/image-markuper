@@ -1,5 +1,5 @@
 import Tool from 'tools/Tool'
-import Point from 'util/Point'
+import Point from 'geom/Point'
 import PolygonDrawer from 'tools/polygon/PolygonDrawer'
 import PolygonEditor from 'tools/polygon/PolygonEditor'
 import MarkupImage from 'image/MarkupImage'

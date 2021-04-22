@@ -1,7 +1,7 @@
 import Tool from 'tools/Tool'
-import Point from 'util/Point'
+import Point from 'geom/Point'
 import { pointFromEvent } from 'util/MouseEventHelper';
-import Bounds from 'util/Bounds'
+import Bounds from 'geom/Bounds'
 import _cloneDeep from 'lodash/cloneDeep'
 
 interface BboxParams {
