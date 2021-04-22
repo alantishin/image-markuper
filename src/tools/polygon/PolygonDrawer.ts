@@ -113,6 +113,8 @@ class PolygonDrawer extends Tool {
     {
         this.clearListeners()
 
+        this.points.splice(this.points.length - 1, 1)
+ 
         this.emit('drawingStop', {
             points: this.points
         })

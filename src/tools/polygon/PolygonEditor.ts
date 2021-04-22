@@ -3,20 +3,22 @@ import Tool from 'tools/Tool'
 import Point from 'geom/Point'
 import { pointFromEvent } from 'util/MouseEventHelper';
 import Bounds from 'geom/Bounds'
+import PointsContainsPoint from 'geom/PointsContainsPoint'
 
 interface PolygonParams {
     canvas: HTMLCanvasElement,
     points: Array<Point>
 }
 
+const EDITOR_POINT_RADIUS = 10
 
 class PolygonEditor extends Tool {
 
     public points: Array<Point> = []
 
     protected canvas: HTMLCanvasElement;
-
     protected eventFuncs: Map<string, any>;
+    protected mouseHover: Boolean = false;
 
     constructor(params: PolygonParams) {
         super();
@@ -62,17 +64,35 @@ class PolygonEditor extends Tool {
             ctx.fill();
             ctx.stroke();
         }
+
+        if (this.mouseHover) {
+            for (const vPoint of this.points) {
+                this.drawEditPoint(ctx, vPoint)
+            }
+        }
+    }
+
+    drawEditPoint(ctx: CanvasRenderingContext2D, point: Point): void {
+        ctx.beginPath();
+        this.options.apply(ctx);
+        ctx.arc(point.x, point.y, EDITOR_POINT_RADIUS, 0, 2 * Math.PI);
+
+
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
     }
 
 
     onMouseClick(event: MouseEvent) : void
     {
-
+        
     }
 
     onMouseMove(event: MouseEvent): void
     {
-
+        const point = pointFromEvent(event)
+        this.mouseHover = PointsContainsPoint(this.points, point)
     }
 
     hasHoverEditor(): boolean {
