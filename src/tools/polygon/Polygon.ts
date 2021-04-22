@@ -58,6 +58,15 @@ class Polygon extends Tool {
     {
         this.drawer = null;
 
+        if(event.points.length < 3) {
+            this.emit('drawingFail', {
+                target: this,
+                text: "Polygon must have more than 3 points"
+            })
+
+            return ;
+        }
+
         this.emit('drawingStop', {
             target: this,
             points: event.points,
